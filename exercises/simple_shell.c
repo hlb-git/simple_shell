@@ -12,14 +12,16 @@
 
 int main(void)
 {
-	char *input = NULL, *token, *args;
-	size_t input_size = 0, input_length;
+	char *token, *input = NULL;
+	size_t input_size = 0;
 	int status, arg_count;
 	pid_t child_pid;
 
 	while (1)
 	{
-		printf("#cisfun$ ");
+		int input_length;
+		char *args[256];/* Create an array for command and its arguments */
+		printf("#Lov&Ngo_shell$ ");
 		input_length = getline(&input, &input_size, stdin);
 		if (input_length == -1)
 		{
@@ -28,10 +30,9 @@ int main(void)
 		}
 		if (input_length > 0 && input[input_length - 1] == '\n')
 			input[input_length - 1] = '\0';/* Remove trailing newline character */
-		*token = strtok(input, " ");/* Tokenize the input */
+		token = strtok(input, " ");/* Tokenize the input */
 		if (token == NULL)
 			continue;/* Empty line, prompt again */
-		*args[256];/* Create an array for command and its arguments */
 		arg_count = 0;
 		while (token != NULL)
 		{
