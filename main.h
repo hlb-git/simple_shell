@@ -9,5 +9,7 @@
 #include <sys/wait.h>
 
 void pretty(void);
+void execute_command(char *args[]);
+void handle_user_input(void);
 
 #endif

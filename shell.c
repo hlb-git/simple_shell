@@ -1,14 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
+#include "main.h"
 #define MAX_ARGS 256
 
-void execute_command(char *args[]);
-void handle_user_input(void);
 /**
  * main - function to create a simple shell
  * Return: always 0;
@@ -77,7 +69,6 @@ void handle_user_input(void)
 			continue; /* Empty line, prompt again */
 
 		arg_count = 0;
-
 		while (token != NULL)
 		{
 			args[arg_count++] = token;
@@ -89,10 +80,7 @@ void handle_user_input(void)
 		{
 			break; /* Exit the shell if "exit" is entered */
 		}
-
 		execute_command(args);
 	}
-
 	free(input); /* Free allocated memory */
 }
-
