@@ -17,6 +17,7 @@ int main(void)
 void execute_command(char *args[])
 {
 	int status;
+	char *file_path;
 	pid_t child_pid = fork();
 
 	if (child_pid < 0)
@@ -26,9 +27,10 @@ void execute_command(char *args[])
 	}
 	else if (child_pid == 0)
 	{
-		if (execve(args[0], args, NULL) == -1)
+		file_path = find_path(args[0]);
+		if (execve(file_path, args, environ) == -1)
 		{
-			perror("execve");
+			perror("Execve");
 			exit(EXIT_FAILURE);
 		}
 	}
