@@ -8,7 +8,7 @@
 
 char *find_path(char *cmd)
 {
-	char **tok_path = malloc(32);
+	char *tok_path[256];
 	char *full_path, *token, *path = getenv("PATH");
 	int count = 0, i = 0;
 	struct stat check;
@@ -17,11 +17,6 @@ char *find_path(char *cmd)
 	{
 		perror("PATH environment variable not set.");
 		return (NULL);
-	}
-	if (tok_path == NULL)
-	{
-		perror("malloc");
-		free(tok_path);
 	}
 	if (stat(cmd, &check) == 0)
 		return (cmd);
@@ -32,6 +27,7 @@ char *find_path(char *cmd)
 		i++;
 		token = strtok(NULL, ":");
 	}
+	tok_path[i] = NULL;
 	i = 0;
 	while (tok_path[i])
 	{
