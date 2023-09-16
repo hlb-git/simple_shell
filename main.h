@@ -16,5 +16,9 @@ char *find_path(char *cmd);
 void pretty(void);
 void execute_command(char *args[]);
 void handle_user_input(void);
+char *_strcat(char *dest, char *src);
+int _strcmp(char *s1, char *s2);
+char *_strcpy(char *dest, char *src);
+int _strlen(char *s);
 
 #endif
