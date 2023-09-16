@@ -78,7 +78,7 @@ void handle_user_input(void)
 		}
 		args[arg_count] = NULL; /* Null-terminate the argument array */
 
-		if (strcmp(args[0], "exit") == 0)
+		if (_strcmp(args[0], "exit") == 0)
 		{
 			break; /* Exit the shell if "exit" is entered */
 		}
