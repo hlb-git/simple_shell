@@ -34,11 +34,23 @@ char *find_path(char *cmd)
 		for (count = 0; tok_path[i][count]; count++)
 		{}
 		if (tok_path[i][count - 1] != '/')
-			tok_path[i] = strcat(tok_path[i], "/");
-		full_path = strcat(tok_path[i], cmd);
-		if (stat(full_path, &check) == 0)
-			break;
-		i++;
+        {
+            /* Allocate memory for full_path and construct it separately*/
+            full_path = (char *)malloc(strlen(tok_path[i]) + strlen(cmd) + 2);
+            if (full_path == NULL)
+            {
+                perror("malloc");
+                return NULL;
+            }
+            strcpy(full_path, tok_path[i]);
+            strcat(full_path, "/");
+            strcat(full_path, cmd);
+
+            if (stat(full_path, &check) == 0)
+                break;
+            free(full_path);
+        }
+        i++;
 	}
 	return (full_path);
 }
