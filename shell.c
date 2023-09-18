@@ -30,7 +30,7 @@ void execute_command(char *args[])
 		file_path = find_path(args[0]);
 		if (execve(file_path, args, environ) == -1)
 		{
-			perror("Execve");
+			write(1, ":( command does not exist\n", 27);
 			exit(EXIT_FAILURE);
 		}
 	}
