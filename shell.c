@@ -20,7 +20,6 @@ void execute_command(char *args[])
 	char *file_path;
 	pid_t child_pid = fork();
 
-
 	if (child_pid < 0)
 	{
 		perror("fork");
