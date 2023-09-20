@@ -14,8 +14,8 @@ extern char **environ;
 
 char *find_path(char *cmd);
 void pretty(void);
-void execute_command(char *args[]);
-void handle_user_input(void);
+void execute_command(char *str, char *args[]);
+void handle_user_input(char *str);
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);
 char *_strcpy(char *dest, char *src);

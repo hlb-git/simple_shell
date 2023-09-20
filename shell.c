@@ -3,18 +3,23 @@
 
 /**
  * main - function to create a simple shell
+ * @argc: arg count
+ * @argv: arg vector
  * Return: always 0;
  */
-int main(void)
+int main(int argc, char *argv[])
 {
-	handle_user_input();
+	(void) argc;
+
+	handle_user_input(argv[0]);
 	return (0);
 }
 /**
  * execute_command - Execute a command with its arguments in a child process.
  * @args: An array of strings representing the command and its arguments.
+ * @str: name of the comman to start shell
  */
-void execute_command(char *args[])
+void execute_command(char *str, char *args[])
 {
 	int status;
 	char *file_path;
@@ -33,6 +38,7 @@ void execute_command(char *args[])
 		{
 			if (execve(file_path, args, environ) == -1)
 			{
+				perror(args[0]);
 				free(file_path);
 				exit(EXIT_FAILURE);
 			}
@@ -47,14 +53,15 @@ void execute_command(char *args[])
 	}
 	else
 	{
-		fprintf(stderr, ":( %s: command not found\n", args[0]);
+		perror(str);
 	}
 }
 
 /**
  * handle_user_input - Handle user input and the main shell logic.
+ * @str: name of the command used to start shell
  */
-void handle_user_input(void)
+void handle_user_input(char *str)
 {
 	char *token, *input = NULL;
 	size_t input_size = 0;
@@ -93,7 +100,7 @@ void handle_user_input(void)
 			free(input);
 			exit(EXIT_SUCCESS);
 		}
-		execute_command(args);
+		execute_command(str, args);
 	}
 	free(input); /* Free allocated memory */
 }
