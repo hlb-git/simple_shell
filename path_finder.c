@@ -31,7 +31,6 @@ char *find_path(char *cmd)
 		token = strtok(NULL, ":");
 	}
 	tok_path[i] = NULL;
-	free(path);
 	i = 0;
 	while (tok_path[i])
 	{
@@ -39,12 +38,7 @@ char *find_path(char *cmd)
 		{}
 		if (tok_path[i][count - 1] != '/')
 		{
-			full_path = (char *)malloc(_strlen(tok_path[i]) + _strlen(cmd) + 2);
-			if (full_path == NULL)
-			{
-				perror("malloc");
-				return (NULL);
-			}
+			full_path = malloc(_strlen(tok_path[i]) + _strlen(cmd) + 2);
 			_strcpcat(full_path, tok_path[i], cmd);
 			if (stat(full_path, &check) == 0)
 				break;
@@ -53,7 +47,10 @@ char *find_path(char *cmd)
 		i++;
 	}
 	if (stat(full_path, &check) == -1)
+	{
+		free(full_path);
 		return (NULL);
+	}
 	return (full_path);
 }
 

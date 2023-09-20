@@ -33,19 +33,21 @@ void execute_command(char *args[])
 		{
 			if (execve(file_path, args, environ) == -1)
 			{
-				perror("execve");
+				free(file_path);
 				exit(EXIT_FAILURE);
 			}
+			else
+				free(file_path);
 		}
 		else
 		{
 			wait(&status);
-			free(file_path);
 		}
+		free(file_path);
 	}
 	else
 	{
-		write(1, ":( command does not exist\n", 27);
+		fprintf(stderr, ":( %s: command not found\n", args[0]);
 	}
 }
 
@@ -64,21 +66,16 @@ void handle_user_input(void)
 
 		printf("#cisfun$ ");
 		input_length = getline(&input, &input_size, stdin);
-
-		if (input_length == -1)
+		if (input_length == EOF)
 		{
-			perror("getline");
-			break; /* Exit on error or EOF */
+			free(input);
+			exit(EXIT_SUCCESS);
 		}
-
 		if (input_length > 0 && input[input_length - 1] == '\n')
 			input[input_length - 1] = '\0'; /* Remove trailing newline character */
-
 		token = strtok(input, " "); /* Tokenize the input */
-
 		if (token == NULL)
 			continue; /* Empty line, prompt again */
-
 		arg_count = 0;
 		while (token != NULL)
 		{
@@ -86,10 +83,15 @@ void handle_user_input(void)
 			token = strtok(NULL, " ");
 		}
 		args[arg_count] = NULL; /* Null-terminate the argument array */
-
+		if (_strcmp(args[0], "exit") == 0 && (args[1] != NULL))
+		{
+			free(input);
+			exit(atoi(args[1])); /* Exit the shell if "exit" is entered */
+		}
 		if (_strcmp(args[0], "exit") == 0)
 		{
-			exit(EXIT_SUCCESS); /* Exit the shell if "exit" is entered */
+			free(input);
+			exit(EXIT_SUCCESS);
 		}
 		execute_command(args);
 	}
