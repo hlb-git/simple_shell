@@ -1,0 +1,7 @@
+TEST_SUITES
+allowed_functions
+runchecker.bash
+.shell.c.swp
+TEST_SUITE/
+hsh
+shell
