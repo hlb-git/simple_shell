@@ -42,7 +42,6 @@ char *find_path(char *cmd)
 			_strcpcat(full_path, tok_path[i], cmd);
 			if (stat(full_path, &check) == 0)
 				break;
-			free(full_path);
 		}
 		i++;
 	}
