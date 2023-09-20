@@ -120,7 +120,7 @@ char *dupstr(char *source)
 	}
 	dup[i] = '\0';
 
-	return(dup);
+	return (dup);
 }
 
 

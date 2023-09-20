@@ -31,6 +31,7 @@ char *find_path(char *cmd)
 		token = strtok(NULL, ":");
 	}
 	tok_path[i] = NULL;
+	free(path);
 	i = 0;
 	while (tok_path[i])
 	{

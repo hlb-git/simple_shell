@@ -22,8 +22,8 @@ void execute_command(char *args[])
 	file_path = find_path(args[0]);
 	if (file_path != NULL)
 	{
-
 		pid_t child_pid = fork();
+
 		if (child_pid < 0)
 		{
 			perror("fork");
@@ -40,10 +40,13 @@ void execute_command(char *args[])
 		else
 		{
 			wait(&status);
+			free(file_path);
 		}
 	}
 	else
+	{
 		write(1, ":( command does not exist\n", 27);
+	}
 }
 
 /**
