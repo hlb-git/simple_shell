@@ -96,3 +96,35 @@ int _strlen(char *s)
 
 	return (i);
 }
+
+/**
+* dupstr - duplicates a string into another pointer
+* @src: the source to duplicate
+* Return: returns the duplicated one
+*/
+
+char *dupstr(char *source)
+{
+	char *dup;
+	int i;
+
+	for (i = 0; source[i]; i++)
+	{}
+	dup = malloc(sizeof(char) * (i + 1));
+	i = 0;
+
+	while (source[i])
+	{
+		dup[i] = source[i];
+		i++;
+	}
+	dup[i] = '\0';
+
+	return(dup);
+}
+
+
+
+
+
+

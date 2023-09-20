@@ -8,15 +8,19 @@ char *_strcpcat(char *dest, char *path, char *cmd);
 
 char *find_path(char *cmd)
 {
-	char *full_path, *token, *path = getenv("PATH"), *tok_path[256];
+	char *full_path, *token, *original_path,  *path, *tok_path[256];
 	int count = 0, i = 0;
 	struct stat check;
 
-	if (path == NULL)
+	original_path = getenv("PATH");
+	path = dupstr(original_path);
+	if (original_path == NULL)
+
 	{
 		perror("PATH environment variable not set.");
 		return (NULL);
 	}
+
 	if (stat(cmd, &check) == 0)
 		return (cmd);
 	token = strtok(path, ":");
@@ -47,6 +51,8 @@ char *find_path(char *cmd)
 		}
 		i++;
 	}
+	if (stat(full_path, &check) == -1)
+		return (NULL);
 	return (full_path);
 }
 

@@ -18,26 +18,32 @@ void execute_command(char *args[])
 {
 	int status;
 	char *file_path;
-	pid_t child_pid = fork();
 
-	if (child_pid < 0)
+	file_path = find_path(args[0]);
+	if (file_path != NULL)
 	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	else if (child_pid == 0)
-	{
-		file_path = find_path(args[0]);
-		if (execve(file_path, args, environ) == -1)
+
+		pid_t child_pid = fork();
+		if (child_pid < 0)
 		{
-			write(1, ":( command does not exist\n", 27);
+			perror("fork");
 			exit(EXIT_FAILURE);
+		}
+		else if (child_pid == 0)
+		{
+			if (execve(file_path, args, environ) == -1)
+			{
+				perror("execve");
+				exit(EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			wait(&status);
 		}
 	}
 	else
-	{
-		wait(&status);
-	}
+		write(1, ":( command does not exist\n", 27);
 }
 
 /**
@@ -80,7 +86,7 @@ void handle_user_input(void)
 
 		if (_strcmp(args[0], "exit") == 0)
 		{
-			break; /* Exit the shell if "exit" is entered */
+			exit(EXIT_SUCCESS); /* Exit the shell if "exit" is entered */
 		}
 		execute_command(args);
 	}
