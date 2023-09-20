@@ -111,6 +111,11 @@ char *dupstr(char *source)
 	for (i = 0; source[i]; i++)
 	{}
 	dup = malloc(sizeof(char) * (i + 1));
+	if (dup == NULL)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
 	i = 0;
 
 	while (source[i])
@@ -122,9 +127,3 @@ char *dupstr(char *source)
 
 	return (dup);
 }
-
-
-
-
-
-
