@@ -65,17 +65,18 @@ void handle_user_input(char *str)
 {
 	char *token, *input = NULL;
 	size_t input_size = 0;
-	int input_length, arg_count;
+	int input_length, arg_count, is_interactive = isatty(STDIN_FILENO);
 
 	while (1)
 	{
 		char *args[MAX_ARGS]; /* Create an array for command and its arguments */
 
-		printf("#cisfun$ ");
+		if (is_interactive)
+			printf("#cisfun$ ");
 		input_length = getline(&input, &input_size, stdin);
 		if (input_length == EOF)
 		{
-			free(input);
+			/* free(input);*/
 			exit(EXIT_SUCCESS);
 		}
 		if (input_length > 0 && input[input_length - 1] == '\n')
@@ -94,8 +95,7 @@ void handle_user_input(char *str)
 		{
 			free(input);
 			exit(atoi(args[1])); /* Exit the shell if "exit" is entered */
-		}
-		if (_strcmp(args[0], "exit") == 0)
+		} else if (_strcmp(args[0], "exit") == 0)
 		{
 			free(input);
 			exit(EXIT_SUCCESS);
