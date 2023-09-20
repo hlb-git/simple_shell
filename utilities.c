@@ -99,7 +99,7 @@ int _strlen(char *s)
 
 /**
 * dupstr - duplicates a string into another pointer
-* @src: the source to duplicate
+* @source: the source to duplicate
 * Return: returns the duplicated one
 */
 

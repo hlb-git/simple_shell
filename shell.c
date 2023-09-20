@@ -62,7 +62,7 @@ void handle_user_input(void)
 	{
 		char *args[MAX_ARGS]; /* Create an array for command and its arguments */
 
-		printf("#Lov&Ngo_shell$ ");
+		printf("#cisfun$ ");
 		input_length = getline(&input, &input_size, stdin);
 
 		if (input_length == -1)
