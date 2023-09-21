@@ -1,71 +1,47 @@
 #include "main.h"
-char *_strcpcat(char *dest, char *path, char *cmd);
+
 /**
- * find_path - finds the path of the inputed command
- * @cmd: the command to find its path
- * Return: returns a pointer to the found command
+ * find_path - sets ordinary cmd_len to executable one with the path.
+ * @arg: cmd_len input of user form the command line.
+ * @env: enviroment variable.
+ * Return:  0 on success and -1 if it didn't perform the task.
  */
 
-char *find_path(char *cmd)
+int find_path(char **arg, char **env)
 {
-	char *full_path, *token, *original_path,  *path, *tok_path[256];
-	int count = 0, i = 0;
+	char *token = NULL, *env_val = NULL, *full_path = NULL;
+	size_t path_len, cmd_len;
 	struct stat check;
 
-	original_path = getenv("PATH");
-	path = dupstr(original_path);
-	if (original_path == NULL)
-	{
-		perror("PATH environment variable not set.");
-		return (NULL);
-	}
-
-	if (stat(cmd, &check) == 0)
-		return (cmd);
-	token = strtok(path, ":");
+	if (stat(*arg, &check) == 0)
+		return (-1);
+	env_val = get_env(env); /*gets the value of the PATH enviroment variable*/
+	if (!env_val)
+		return (-1);
+	token = strtok(env_val, ":");
+	cmd_len = _strlen(*arg);
 	while (token)
 	{
-		tok_path[i] = token;
-		i++;
+		path_len = _strlen(token);
+		full_path = malloc(sizeof(char) * (path_len + cmd_len + 2));
+		if (!full_path)
+		{
+			free(env_val);
+			return (-1);
+		}
+		full_path = _strcpy(full_path, token);
+		_strcat(full_path, "/");
+		_strcat(full_path, *arg);
+		/* the above operations contatinats the command with the each token path*/
+		if (stat(full_path, &check) == 0)
+		{
+			*arg = full_path;
+			free(env_val);
+			return (0);
+		}
+		free(full_path);
 		token = strtok(NULL, ":");
 	}
-	tok_path[i] = NULL;
-	i = 0;
-	while (tok_path[i])
-	{
-		for (count = 0; tok_path[i][count]; count++)
-		{}
-		if (tok_path[i][count - 1] != '/')
-		{
-			full_path = malloc(_strlen(tok_path[i]) + _strlen(cmd) + 2);
-			_strcpcat(full_path, tok_path[i], cmd);
-			if (stat(full_path, &check) == 0)
-				break;
-			free(full_path);
-		}
-		i++;
-	}
-	free(path);
-	if (stat(full_path, &check) == -1)
-	{
-		/*free(full_path);*/
-		return (NULL);
-	}
-	return (full_path);
-}
-
-/**
- * _strcpcat - function to copy and concatenate a path with a command
- * @dest: destination to store result
- * @path: path to be added
- * @cmd: command typed by user
- * Return: pointer to the destination
- */
-char *_strcpcat(char *dest, char *path, char *cmd)
-{
-	_strcpy(dest, path);
-	_strcat(dest, "/");
-	_strcat(dest, cmd);
-
-	return (dest);
+	free(env_val);
+	return (-1);
 }

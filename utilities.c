@@ -9,21 +9,20 @@
 
 char *_strcat(char *dest, char *src)
 {
-	int i, j;
+	int a = 0;
+	int s = 0;
 
-	i = 0;
-
-	while (dest[i] != '\0')
-		i++;
-
-	j = 0;
-	while (src[j] != '\0')
+	while (dest[a] != '\0')
 	{
-		dest[i] = src[j];
-		j++;
-		i++;
+		a++;
 	}
-	dest[i] = '\0';
+	while (src[s] != '\0')
+	{
+		dest[a] = src[s];
+		a++;
+		s++;
+	}
+	dest[a] = '\0';
 	return (dest);
 }
 
@@ -37,16 +36,14 @@ char *_strcat(char *dest, char *src)
  */
 int _strcmp(char *s1, char *s2)
 {
-	while (*s1 == *s2)
+	int a;
+
+	for (a = 0; s1[a] != '\0' && s2[a] != '\0'; a++)
 	{
-		if (*s1 == '\0')
-		{
-			return (0);
-		}
-		s1++;
-		s2++;
+		if (s1[a] != s2[a])
+			return ((int)s1[a] - s2[a]);
 	}
-	return (*s1 - *s2);
+	return (0);
 }
 
 /**
@@ -60,20 +57,14 @@ int _strcmp(char *s1, char *s2)
  */
 char *_strcpy(char *dest, char *src)
 {
-	int len, i;
+	int i = 0;
 
-	len = 0;
-
-	while (src[len] != '\0')
+	while (*(src + i) != '\0')
 	{
-		len++;
+		*(dest + i) = *(src + i);
+		++i;
 	}
-
-	for (i = 0; i < len; i++)
-	{
-		dest[i] = src[i];
-	}
-	dest[i] = '\0';
+	*(dest + i) = *(src + i);
 
 	return (dest);
 }
@@ -98,32 +89,25 @@ int _strlen(char *s)
 }
 
 /**
-* dupstr - duplicates a string into another pointer
-* @source: the source to duplicate
-* Return: returns the duplicated one
-*/
+ *_strncmp -  compares certain number of strings.
+ *@s1: pointer to string one
+ *@s2: pointer to string two
+ *@n: unsigned int number of characters
+ * Return: retruns 0 if the same, else the difference in them
+ */
 
-char *dupstr(char *source)
+size_t _strncmp(char *s1, char *s2, size_t n)
 {
-	char *dup;
-	int i;
+	size_t i, j;
 
-	for (i = 0; source[i]; i++)
-	{}
-	dup = malloc(sizeof(char) * (i + 1));
-	if (dup == NULL)
+	for (j = 0; s1[j] != '\0' && j < n; j++)
 	{
-		perror("malloc");
-		exit(EXIT_FAILURE);
-	}
-	i = 0;
+		i = s1[j] - s2[j];
 
-	while (source[i])
-	{
-		dup[i] = source[i];
-		i++;
+		if (i != 0)
+		{
+			return (i);
+		}
 	}
-	dup[i] = '\0';
-
-	return (dup);
+	return (0);
 }
