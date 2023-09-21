@@ -72,7 +72,7 @@ void handle_user_input(char *str)
 		char *args[MAX_ARGS]; /* Create an array for command and its arguments */
 
 		if (is_interactive)
-			printf("#cisfun$ ");
+			write(1, "$ ", 2);
 		input_length = getline(&input, &input_size, stdin);
 		if (input_length == EOF)
 		{
@@ -93,14 +93,14 @@ void handle_user_input(char *str)
 		args[arg_count] = NULL; /* Null-terminate the argument array */
 		if (_strcmp(args[0], "exit") == 0 && (args[1] != NULL))
 		{
-			free(input);
+			/*free(input);*/
 			exit(atoi(args[1])); /* Exit the shell if "exit" is entered */
 		} else if (_strcmp(args[0], "exit") == 0)
 		{
-			free(input);
+			/*free(input);*/
 			exit(EXIT_SUCCESS);
 		}
 		execute_command(str, args);
 	}
-	free(input); /* Free allocated memory */
+	/*free(input);*/ /* Free allocated memory */
 }
