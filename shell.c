@@ -1,6 +1,9 @@
 #include "main.h"
 #define MAX_ARGS 256
+#include <signal.h>
 
+void handle_signal(int signum);
+void handle_EOF(int input_lenght, char *input);
 /**
  * main - function to create a simple shell
  * @argc: arg count
@@ -10,6 +13,7 @@
 int main(int argc, char *argv[])
 {
 	(void) argc;
+	signal(SIGINT, handle_signal);
 
 	handle_user_input(argv[0]);
 	return (0);
@@ -32,6 +36,7 @@ void execute_command(char *str, char *args[])
 		if (child_pid < 0)
 		{
 			perror("fork");
+			free(file_path);
 			exit(EXIT_FAILURE);
 		}
 		else if (child_pid == 0)
@@ -39,17 +44,52 @@ void execute_command(char *str, char *args[])
 			if (execve(file_path, args, environ) == -1)
 			{
 				perror(args[0]);
+				free(file_path);
 				exit(EXIT_FAILURE);
 			}
 		}
 		else
 		{
 			wait(&status);
+			free(file_path);
 		}
 	}
 	else
 	{
 		perror(str);
+	}
+}
+
+/**
+ * handle_signal - function to intercept ^C signal
+ * @signum: the signal integer
+ */
+void handle_signal(int signum)
+{
+	char *new_prompt = "\n$ ";
+
+	(void)signum;
+	signal(SIGINT, handle_signal);
+	write(STDIN_FILENO, new_prompt, 3);
+}
+
+/**
+ * handle_EOF - function to handle end of file
+ * @input_length: length of the input
+ * @input: pointer that we want to clear
+ */
+void handle_EOF(int input_length, char *input)
+{
+	int is_interactive = isatty(STDIN_FILENO);
+
+	if (input_length == EOF)
+	{
+		if (is_interactive)
+		{
+			printf("exiting...\n");
+			free(input);
+		}
+		exit(EXIT_SUCCESS);
 	}
 }
 
@@ -70,10 +110,7 @@ void handle_user_input(char *str)
 		if (is_interactive)
 			write(0, "$ ", 2);
 		input_length = getline(&input, &input_size, stdin);
-		if (input_length == EOF)
-		{
-			exit(EXIT_SUCCESS);
-		}
+		handle_EOF(input_length, input);
 		if (input_length > 0 && input[input_length - 1] == '\n')
 			input[input_length - 1] = '\0'; /* Remove trailing newline character */
 		token = strtok(input, " "); /* Tokenize the input */
@@ -88,11 +125,14 @@ void handle_user_input(char *str)
 		args[arg_count] = NULL; /* Null-terminate the argument array */
 		if (_strcmp(args[0], "exit") == 0 && (args[1] != NULL))
 		{
+			free(input);
 			exit(atoi(args[1])); /* Exit the shell if "exit" is entered */
 		} else if (_strcmp(args[0], "exit") == 0)
 		{
+			free(input);
 			exit(EXIT_SUCCESS);
 		}
 		execute_command(str, args);
 	}
+	free(input);
 }

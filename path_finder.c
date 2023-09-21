@@ -15,7 +15,6 @@ char *find_path(char *cmd)
 	original_path = getenv("PATH");
 	path = dupstr(original_path);
 	if (original_path == NULL)
-
 	{
 		perror("PATH environment variable not set.");
 		return (NULL);
@@ -42,9 +41,11 @@ char *find_path(char *cmd)
 			_strcpcat(full_path, tok_path[i], cmd);
 			if (stat(full_path, &check) == 0)
 				break;
+			free(full_path);
 		}
 		i++;
 	}
+	free(path);
 	if (stat(full_path, &check) == -1)
 	{
 		/*free(full_path);*/
