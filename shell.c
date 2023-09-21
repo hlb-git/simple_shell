@@ -25,9 +25,12 @@ int main(int argc, char *argv[])
  */
 void execute_command(char *str, char *args[])
 {
-	int status;
+	int status, flag = 0;
+	struct stat check;
 	char *file_path;
 
+	if (stat(args[0], &check) == 0)
+		flag = 1;
 	file_path = find_path(args[0]);
 	if (file_path != NULL)
 	{
@@ -36,7 +39,8 @@ void execute_command(char *str, char *args[])
 		if (child_pid < 0)
 		{
 			perror("fork");
-			free(file_path);
+			if (!flag)
+				free(file_path);
 			exit(EXIT_FAILURE);
 		}
 		else if (child_pid == 0)
@@ -44,14 +48,16 @@ void execute_command(char *str, char *args[])
 			if (execve(file_path, args, environ) == -1)
 			{
 				perror(args[0]);
-				free(file_path);
+				if (!flag)
+					free(file_path);
 				exit(EXIT_FAILURE);
 			}
 		}
 		else
 		{
 			wait(&status);
-			free(file_path);
+			if (!flag)
+				free(file_path);
 		}
 	}
 	else
@@ -87,7 +93,8 @@ void handle_EOF(int input_length, char *input)
 		if (is_interactive)
 		{
 			printf("exiting...\n");
-			free(input);
+			if (_strlen(input))
+				free(input);
 		}
 		exit(EXIT_SUCCESS);
 	}
