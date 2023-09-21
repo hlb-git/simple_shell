@@ -87,7 +87,8 @@ void handle_EOF(int input_length, char *input)
 		if (is_interactive)
 		{
 			printf("exiting...\n");
-			free(input);
+			if (_strlen(input))
+				free(input);
 		}
 		exit(EXIT_SUCCESS);
 	}
