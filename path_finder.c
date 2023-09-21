@@ -47,7 +47,7 @@ char *find_path(char *cmd)
 	}
 	if (stat(full_path, &check) == -1)
 	{
-		free(full_path);
+		/*free(full_path);*/
 		return (NULL);
 	}
 	return (full_path);
