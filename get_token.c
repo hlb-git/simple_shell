@@ -28,7 +28,7 @@ char **get_token(char *input)
 	if (user_command == NULL)
 		return (NULL);
 
-	token = strtok(input, " \n\t\r");
+	token = _strtok(input, " \n\t\r");
 
 	/**
 	 * The line above tokenizes the preceeding string if it sees
@@ -39,7 +39,7 @@ char **get_token(char *input)
 	for (i = 0; token != NULL; i++)
 	{
 		user_command[i] = token;
-		token = strtok(NULL, " \n\t\r");
+		token = _strtok(NULL, " \n\t\r");
 	}
 	user_command[i] = NULL; /* NULL terminate the pointer to array pointer*/
 	return (user_command);

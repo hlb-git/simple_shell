@@ -1,15 +1,15 @@
 #include "main.h"
 
 /**
- * fork_it - creates a fork process
- *@arg: the command table
- *@argv: holds the name of the program
- *@env: enviroment variable
- *@input: the commands from getline function
- *@np: id of proces
- *@c: Checker add new test
- *Return: 0 success
- */
+* fork_it - creates a fork process
+* @arg: the command table
+* @env: enviroment variable
+* @input: the commands from getline function
+* @np: id of process
+* @av: holds the name of the program
+* @c: Checker add new test
+* Return: 0 success
+*/
 
 int fork_it(char **arg, char **av, char **env, char *input, int np, int c)
 {
