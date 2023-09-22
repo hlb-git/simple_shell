@@ -1,5 +1,5 @@
 #include "main.h"
-_
+
 /**
 * fork_it - creates a fork process
 * @arg: the command table
@@ -29,7 +29,7 @@ int fork_it(char **arg, char **av, char **env, char *input, int np, int c)
 				free(arg[0]);
 			free(arg);
 			free(input);
-			exit(errno);
+			exit(127);
 		}
 	}
 	else
