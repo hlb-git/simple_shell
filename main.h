@@ -18,7 +18,7 @@ char **get_token(char *input);
 void exit_cmd(char **arg, char *input, int _exit);
 void my_getenv(char **env);
 int find_path(char **arg, char **env);
-char *_get_env(char **env);
+char *get_env(char **env);
 int fork_it(char **arg, char **av, char **env, char *input, int np, int c);
 char *_strcat(char *dest, char *src);
 int _strcmp(char *s1, char *s2);

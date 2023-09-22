@@ -6,7 +6,7 @@
  * Return: a pointer to the string of the PATH variable.
  */
 
-char *_get_env(char **env)
+char *get_env(char **env)
 {
 	size_t index = 0, var = 0, count = 5;
 	char *path = NULL;
