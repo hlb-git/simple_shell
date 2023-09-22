@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * getline_command - this is where the user input is captured
+ * getline_cmd - this is where the user input is captured
  * Return: returns a pointer to the string from the gertline function
  */
 
