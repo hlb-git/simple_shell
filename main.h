@@ -25,4 +25,6 @@ int _strcmp(char *s1, char *s2);
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 size_t _strncmp(char *s1, char *s2, size_t n);
+char *_strtok(char *str, const char *delim);
+
 #endif
