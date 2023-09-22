@@ -15,7 +15,7 @@ int find_path(char **arg, char **env)
 
 	if (stat(*arg, &check) == 0)
 		return (-1);
-	env_val = get_env(env); /*gets the value of the PATH enviroment variable*/
+	env_val = _get_env(env); /*gets the value of the PATH enviroment variable*/
 	if (!env_val)
 		return (-1);
 	token = strtok(env_val, ":");
