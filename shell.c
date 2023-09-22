@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **env)
 				free(get_command);
 				continue;
 			}
-			if ((!_strcmp(tokzed_cmd[0], "exit")) && tokzed_cmd[1] == NULL)
+			if ((!_strcmp(tokzed_cmd[0], "exit")))
 				exit_cmd(tokzed_cmd, get_command, _exit);
 			if (!_strcmp(tokzed_cmd[0], "env"))
 				my_getenv(env);
