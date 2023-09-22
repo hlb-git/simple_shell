@@ -15,7 +15,7 @@ extern char **environ;
 
 char *getline_cmd(void);
 char **get_token(char *input);
-void exit_cmd(char **arg, char *input, int _exit);
+void exit_cmd(char *argv, char **arg, char *input, int _exit);
 void my_getenv(char **env);
 int find_path(char **arg, char **env);
 char *get_env(char **env);
